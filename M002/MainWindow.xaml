@@ -1,0 +1,98 @@
+﻿<Window x:Class="M002.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="650" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+    <StackPanel>
+		<!--TextBlock: Text anzeigen-->
+		<TextBlock Text="Hallo Welt"
+				   FontSize="30"
+				   FontFamily="Wingdings"/>
+		
+		<!--Image: Bilder anzeigen-->
+		<Image Source="C:\Users\lk3\source\repos\WPF_2025_03_24\M002\ppedv-Logo.png"
+			   Stretch="Fill"/>
+
+		<!--Button: Userinteraktion-->
+		<!--Trick: Eventname eingeben -> F12-->
+		<Button Content="Hallo Welt"
+				Click="HalloWeltClicked"/>
+
+		<!--TextBox: Usereingabe-->
+		<TextBox Name="Eingabe"
+				 AcceptsReturn="True"
+				 AcceptsTab="True"
+				 TextWrapping="Wrap"/>
+		<TextBlock Name="Ausgabe"/>
+		
+		<!--ComboBox: Dropdown, Auswahlmöglichkeiten-->
+		<ComboBox>
+			<ComboBoxItem Content="1"/>
+			<ComboBoxItem Content="2"/>
+			<ComboBoxItem Content="3"/>
+			<ComboBoxItem>4</ComboBoxItem>
+		</ComboBox>
+
+		<!--Beispiel: Daten aus dem Backend (C#) anzeigen-->
+		<!--ItemsSource einen Wert geben-->
+		<ComboBox Name="Dropdown"/>
+		
+		<!--CheckBox: Ja/Nein Box-->
+		<CheckBox IsChecked="True" Content="Hallo"/>
+		
+		<!--Beispiel: Text auf der linken Seite-->
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Text="Hallo" Margin="0, 0, 5, 0"/>
+			<CheckBox/>
+		</StackPanel>
+		
+		<!--RadioButton: Gruppierte CheckBoxen-->
+		<!--Wenn einer ausgewählt wird, werden die anderen abgewählt-->
+		<RadioButton GroupName="R"/>
+		<RadioButton GroupName="R"/>
+		<RadioButton GroupName="R"/>
+
+		<!--Basisklasse von CheckBox/RadioButton-->
+		<ToggleButton Content="Hallo"/>
+
+		<!--Slider: Bereich zwischen X und Y-->
+		<!--Mit TickFrequency="1" IsSnapToTickEnabled="True" kann der Slider nurnoch ganze Zahlen darstrellen-->
+		<Slider Minimum="0" Maximum="100" Value="50"
+				ValueChanged="Slider_ValueChanged"
+				TickFrequency="1" IsSnapToTickEnabled="True"
+				TickPlacement="BottomRight"
+				Foreground="Black"/>
+
+		<Slider Minimum="0" Maximum="256"
+				Ticks="1, 2, 4, 8, 16, 32, 64, 128, 256"
+				TickPlacement="BottomRight"
+				Foreground="Black"
+				IsSnapToTickEnabled="True"/>
+
+		<!--ProgressBar: Fortschritt anzeigen-->
+		<ProgressBar Minimum="0" Maximum="100" Value="30" Height="20"
+					 Foreground="Violet"
+					 IsIndeterminate="True"/>
+		
+		<!--Menu: Menüleiste (mit Untermenüs)-->
+		<!--Untermenüs bauen mit verschachtelten MenuItems-->
+		<Menu>
+			<MenuItem Header="Datei">
+				<MenuItem Header="Neu"/>
+				<MenuItem Header="Öffnen"/>
+				<MenuItem Header="Beenden" Click="BeendenClicked"/>
+			</MenuItem>
+			<MenuItem Header="Bearbeiten"/>
+			<MenuItem Header="Ansicht"/>
+			<MenuItem Header="Hilfe"/>
+			<MenuItem Header="Zahlen" Name="Test"/>
+		</Menu>
+
+		<Separator Margin="20"/>
+
+		<ListBox Name="LB"
+				 SelectionMode="Extended"
+				 SelectionChanged="LB_SelectionChanged"/>
+	</StackPanel>
+</Window>

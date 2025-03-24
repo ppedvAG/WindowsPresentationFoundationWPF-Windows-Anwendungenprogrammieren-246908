@@ -1,4 +1,4 @@
-# CSharp Grundkurs
+# WPF Kurs
 
 Kurs Repository zum Kurs WPF - Windows Presentation Foundation der ppedv AG. Trainer: Lukas Kern (LukasK@ppedv.de).
 
