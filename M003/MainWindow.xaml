@@ -1,0 +1,133 @@
+﻿<Window x:Class="M003.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="800" Width="400"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<StackPanel>
+		<!--Jedes Window hat als Wurzelelement einen Layoutcontainer-->
+		<!--Dieser Container gibt vor, wie die Komponenten darin angeordnet werden-->
+
+		<!--Width, Height-->
+		<!--Sollten nicht selbst gesetzt werden, sondern von der Layoutkomponente selbst berechnet werden-->
+		<Button Content="Hallo Welt"/>
+		<!--Breite: Vom StackPanel; Höhe: Vom Button selbst (Inhalt)-->
+
+		<!--Margin & Padding-->
+		<!--Margin: Außenabstand (Abstand der Komponente selbst zur umliegenden Komponente)-->
+		<!--Padding: Innenabstand (Abstand des Inhalts der Komponente zu sich selbst)-->
+
+		<!--Margin bezieht sich hier auf das StackPanel, Padding bezieht sich hier auf den Text-->
+		<Button Content="Hallo Welt" Margin="10" Padding="10"/>
+		<Separator/>
+
+		<!--Reihenfolge von mehreren Werten-->
+		<!--Ein Wert: Alle Seiten-->
+		<!--Zwei Werte: Links/Rechts, Oben/Unten-->
+		<!--Vier Werte: Links, Oben, Rechts, Unten-->
+
+		<!--Alignment-->
+		<!--HorizontalAlignment, VerticalAlignment-->
+		<!--HorizontalContentAlignment, VerticalContentAlignment-->
+		<!--Alignment bezieht sich auf die Komponente selbst, ContentAlignment bezieht sich auf den Inhalt der Komponente-->
+		<Button Content="Hallo Welt" HorizontalAlignment="Center"/>
+		<Button Content="Hallo Welt" HorizontalContentAlignment="Left"/>
+		<!--<Button Content="Hallo Welt" VerticalAlignment="Bottom"/>--> <!--Nicht möglich bei StackPanel-->
+		<Button Content="Hallo Welt" VerticalContentAlignment="Bottom" Height="50"/>
+		
+		<!--DockPanel-->
+		<!--Platziert Elemente in 5 vorgegebenen Plätzen-->
+		<!--Links, Oben, Rechts, Unten, Mitte-->
+		<!--Häufig in der Webentwicklung eingesetzt-->
+		<DockPanel>
+			<!--WICHTIG: Reihenfolge der Komponente bestimmt die Ausbreitung der Komponente-->
+			<Button Content="Links" DockPanel.Dock="Left"/>
+			<Button Content="Rechts" DockPanel.Dock="Right"/>
+			
+			<Button Content="Oben" DockPanel.Dock="Top"/>
+			<Button Content="Unten" DockPanel.Dock="Bottom"/>
+			
+			<!--Das letzte Element ist immer in der Mitte-->
+			<Button Content="Mitte"/>
+		</DockPanel>
+		
+		<!--Grid-->
+		<!--Zeilen- und Spaltenbasierte Komponente-->
+		<!--Benötigt Row- und/oder ColumnDefinitions-->
+		<!--Jede Komponente benötigt eine Zeilen-/Spaltenangabe mithilfe von Grid.Row/Grid.Column-->
+		<Grid>
+			<!--3x4 Grid-->
+			<Grid.RowDefinitions>
+				<RowDefinition Height="50"/>
+				<RowDefinition Height="20"/>
+				<RowDefinition Height="50"/>
+			</Grid.RowDefinitions>
+			
+			<!--Sternnotation-->
+			<!--Jede Zeile/Spalte mit einem Stern (z.B. 1*) passt sich von der Höhe/Breite so an, das alle Zeilen/Spalten mit einem Stern immer gleich groß sind-->
+			<!--Die Sterne beziehen sich auf die Gesamtbreite vom Grid-->
+			<!--Beispiel: Breite 400px/5* = 80px pro Stern-->
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="50"/>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="*"/> <!--* Alleine = 1*-->
+				<ColumnDefinition Width="Auto"/> <!--Auto: Passt die Breite auf den Inhalt an-->
+			</Grid.ColumnDefinitions>
+
+			<!--Span: Ignoriert Zeilen-/Spaltenbegrenzungen-->
+			<ListBox Grid.RowSpan="2">
+				<ListBoxItem Content="1"/>
+				<ListBoxItem Content="2"/>
+				<ListBoxItem Content="3"/>
+			</ListBox>
+			<Button Content="Hallo" Grid.Row="1" Grid.Column="1"/>
+			<TextBox Text="Eingabe" Grid.Row="1" Grid.Column="2"/>
+			<TextBlock Text="Ein Text" Grid.Row="0" Grid.Column="3"/>
+			<Button Content="Ein Breiter Button" Grid.Row="2" Grid.ColumnSpan="4"/>
+		</Grid>
+		
+		<!--UniformGrid-->
+		<!--Einfache Variante vom Grid-->
+		<!--Vorteil: Wenig Code notwendig-->
+		<!--Nachteil: Alle Zeilen/Spalten sind immer gleich groß-->
+		<!--Benötigt eine/zwei Row/Column Angabe(n)-->
+		<UniformGrid Rows="3" Columns="3">
+			<Button Content="Test1"/>
+			<Button Content="Test2"/>
+			<Button Content="Test3"/>
+			<Button Content="Test4"/>
+			<Button Content="Test5"/>
+			<Button Content="Test6"/>
+			<Button Content="Test7"/>
+			<Button Content="Test8"/>
+			<Button Content="Test9"/>
+		</UniformGrid>
+		
+		<!--ViewBox-->
+		<!--Skaliert beliebige Komponente wie ein Image-->
+		<!--D.h. die Komponente vergrößert/verkleinert sich mit der Fenstergröße-->
+		<Viewbox>
+			<Button Content="Viewbox Test"/>
+		</Viewbox>
+		
+		<!--Border-->
+		<!--Legt einen Rahmen um eine Komponente herum-->
+		<!--WICHTIG: Kann immer nur genau eine Komponente enthalten-->
+		<Border BorderBrush="Aqua" BorderThickness="3">
+			<!--Falls die Border mehrere Komponente enthalten soll, muss ein Layoutcontainer eingesetzt werden-->
+			<StackPanel>
+				<TextBlock Text="Hallo Border"/>
+				<TextBlock Text="Hallo Border"/>
+			</StackPanel>
+		</Border>
+
+		<!--ScrollViewer-->
+		<!--Macht den Inhalt scrollbar-->
+		<ScrollViewer Height="200"
+					  HorizontalScrollBarVisibility="Disabled"
+					  VerticalScrollBarVisibility="Visible">
+			<TextBlock Text="wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+					   TextWrapping="Wrap"/>
+		</ScrollViewer>
+	</StackPanel>
+</Window>
