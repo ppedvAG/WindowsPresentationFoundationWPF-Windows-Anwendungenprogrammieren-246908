@@ -1,0 +1,81 @@
+﻿<Window x:Class="M004.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M004"
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<Window.Resources>
+		<BooleanToVisibilityConverter x:Key="BVC"/>
+		<local:ScoreToColorConverter x:Key="SCC"/>
+	</Window.Resources>
+    <StackPanel Margin="10">
+		<!--Binding-->
+		<!--Synchronisation von zwei UI-Komponenten-->
+		<!--Wenn sich die eine Komponente ändert, ändert sich die andere automatisch auch-->
+		<!--Vorteil: Kein C# Code notwendig für UI-Updates-->
+		
+		<!--Beispiel 1: Slider und TextBlock binden-->
+		<Slider Minimum="1" Maximum="100" IsSnapToTickEnabled="True" TickFrequency="1"
+				Name="TextSlider"/>
+
+		<!--WICHTIG: Die Komponente die gebunden werden soll, muss einen Namen haben-->
+		<TextBlock>
+			<TextBlock.Text>
+				<!--Ein Propertybinding benötigt immer zwei Eigenschaften: ElementName, Path-->
+				<!--ElementName: Name der anderen Komponente-->
+				<!--Path: Die Eigenschaft von der anderen Komponente, welche gebunden soll-->
+				<Binding ElementName="TextSlider" Path="Value"/>
+			</TextBlock.Text>
+			
+			<!--Beispiel 2: FontSize mit dem Slider anpassen-->
+			<TextBlock.FontSize>
+				<Binding ElementName="TextSlider" Path="Value"/>
+			</TextBlock.FontSize>
+		</TextBlock>
+		
+		<!--Binding per MarkupExtension-->
+		<!--Kurzform für Bindings-->
+		<TextBlock Text="{Binding ElementName=TextSlider, Path=Value}"
+				   FontSize="{Binding ElementName=TextSlider, Path=Value}"/>
+		
+		<!--Binding Mode-->
+		<!--Gibt die Richtung des Bindings an-->
+		<!--Standard: Abhängig von den Komponenten-->
+		
+		<!--UpdateSourceTrigger-->
+		<!--Beeinflusst, wann das Binding ausgeführt wird-->
+		<!--Zwei Optionen: PropertyChanged, LostFocus-->
+		<!--Explicit: Muss über C# Code ausgeführt werden-->
+		<TextBlock Text="{Binding ElementName=TB, Path=Text, UpdateSourceTrigger=Explicit, StringFormat='Text: {0}'}"
+				   Name="Output"/>
+		<TextBox Name="TB"/>
+		<Button Click="Button_Click"
+				Content="Aktualisieren"/>
+		
+		<!--StringFormat: Passt den Output nach dem Binding an-->
+		<!--{0} ist der per Binding gesendete Wert-->
+		<!--StringFormat muss mit '' definiert werden-->
+		
+		<!--Converter-->
+		<!--Bei einem Binding ein Stück C# Code dazwischenschalten-->
+		<!--z.B.: Boolean zu Visibility-->
+		<!--Visibility: Enum, Boolean: Boolean-->
+		<CheckBox Name="CB"/>
+		<TextBlock Text="Hallo" Visibility="{Binding ElementName=CB, Path=IsChecked}"/>
+		
+		<!--Vorgriff: Resources-->
+		<!--Zwei Aufgaben: Resource anlegen, Resource einbinden-->
+		<!--Resource anlegen: In Window.Resources ein Objekt von dem entsprechenden Converter anlegen-->
+		<!--Resource einbinden: Per StaticResource MarkupExtension (Converter={StaticResource BVC})-->
+		<TextBlock Text="Hallo" Visibility="{Binding ElementName=CB, Path=IsChecked, Converter={StaticResource BVC}}"
+				   Foreground="Red"/>
+		
+		<!--Beispiel: TextBlock mit Punktzahl (0-100); Hintergrund soll gefärbt werden, je nach Punktzahl-->
+		<!--Für einen eigenen Converter wird eine C# Klasse benötigt-->
+		<Slider Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Name="ScoreSlider"/>
+		<TextBlock Text="{Binding ElementName=ScoreSlider, Path=Value}"
+				   Background="{Binding ElementName=ScoreSlider, Path=Value, Converter={StaticResource SCC}}"
+				   FontSize="40"/>
+	</StackPanel>
+</Window>
