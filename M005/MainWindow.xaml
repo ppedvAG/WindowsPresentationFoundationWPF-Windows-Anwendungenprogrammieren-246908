@@ -1,0 +1,39 @@
+﻿<Window x:Class="M005.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M005"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<StackPanel Margin="5">
+		<!--Data Binding-->
+		<!--Wie normales Binding, aber ins C# Backend (statt 2 UI-Elemente)-->
+		<!--Benötigt DataContext und INotifyPropertyChanged-->
+		
+		<!--DataContext-->
+		<!--DataContext ist eine Eigenschaft auf jedem UI-Element-->
+		<!--Gibt dem Binding-System bekannt, was das Objekt ist, welches gebunden werden soll-->
+
+		<!--Bei einem Data Binding muss kein ElementName angegeben werden (nur Path)-->
+		<!--Das Binding-System sucht auf dem DataContext (object) nach einer Variable namens "Counter"-->
+		<!--Wenn der DataContext nicht gesetzt ist, ist dieser null-->
+		<!--Lösung: Window selbst in den DataContext hineinlegen-->
+		<!--Zwei Optionen: XAML oder im C#-Backend-->
+		<!--1. DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
+		<!--2. this.DataContext = this;-->
+		<TextBlock Text="{Binding Path=Counter}"
+				   FontSize="40"/>
+		<Button Content="Counter++"
+				Click="Button_Click"/>
+		
+		<!--ObservableCollection-->
+		<!--Funktioniert wie List, aber benachrichtigt automatisch bei Änderungen in der Liste-->
+		<ListBox ItemsSource="{Binding Zahlen}"/>
+		<Button Content="Neue Zahl"
+				Click="Button_Click_1"/>
+
+		<!--Mit . kann bei Bindings in das Objekt hineingegriffen werden-->
+		<TextBlock Text="{Binding Zahlen.Count}"/>
+	</StackPanel>
+</Window>
