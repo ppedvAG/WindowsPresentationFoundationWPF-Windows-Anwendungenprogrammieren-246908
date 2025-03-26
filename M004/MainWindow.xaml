@@ -8,6 +8,7 @@
 	<Window.Resources>
 		<BooleanToVisibilityConverter x:Key="BVC"/>
 		<local:ScoreToColorConverter x:Key="SCC"/>
+		<local:ScoreToGradeConverter x:Key="SGC"/>
 	</Window.Resources>
     <StackPanel Margin="10">
 		<!--Binding-->
@@ -72,10 +73,41 @@
 				   Foreground="Red"/>
 		
 		<!--Beispiel: TextBlock mit Punktzahl (0-100); Hintergrund soll gefärbt werden, je nach Punktzahl-->
+		<!--Beispiel 2: Punktzahl zu Schulnote übersetzen (Text)-->
 		<!--Für einen eigenen Converter wird eine C# Klasse benötigt-->
 		<Slider Minimum="0" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" Name="ScoreSlider"/>
-		<TextBlock Text="{Binding ElementName=ScoreSlider, Path=Value}"
+		<TextBlock Text="{Binding ElementName=ScoreSlider, Path=Value, Converter={StaticResource SGC}}"
 				   Background="{Binding ElementName=ScoreSlider, Path=Value, Converter={StaticResource SCC}}"
-				   FontSize="40"/>
+				   FontSize="40"
+				   Padding="10"/>
+		
+		<!--MultiBinding-->
+		<!--Binding mit mehreren Quellen-->
+		<!--Benötigt immer einen Converter-->
+		
+		<!--Beispiel: 4 Slider zu einem Margin übersetzen-->
+		<Slider Minimum="0" Maximum="50" Name="LSlider"/>
+		<Slider Minimum="0" Maximum="50" Name="TSlider"/>
+		<Slider Minimum="0" Maximum="50" Name="RSlider"/>
+		<Slider Minimum="0" Maximum="50" Name="BSlider"/>
+
+		<Button Content="Margin mit 4 Slidern">
+			<Button.Margin>
+				<!--Beim MultiBinding werden die Quellen über normale Bindings angegeben-->
+				<MultiBinding>
+					<Binding ElementName="LSlider" Path="Value"/>
+					<Binding ElementName="TSlider" Path="Value"/>
+					<Binding ElementName="RSlider" Path="Value"/>
+					<Binding ElementName="BSlider" Path="Value"/>
+
+					<!--Beim MultiBinding muss der Converter mittels MultiBinding.Converter eingebunden werden-->
+					<MultiBinding.Converter>
+						<local:FourValueToMarginConverter/>
+					</MultiBinding.Converter>
+				</MultiBinding>
+			</Button.Margin>
+		</Button>
+
+		<Separator/>
 	</StackPanel>
 </Window>
