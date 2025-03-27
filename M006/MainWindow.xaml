@@ -1,0 +1,70 @@
+﻿<Window x:Class="M006.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M006"
+		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        Title="MainWindow" Height="450" Width="800"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<Window.Resources>
+		<sys:Double x:Key="DefaultFontSize">25.5</sys:Double>
+		<sys:String x:Key="HalloWelt">Hallo Welt</sys:String>
+		<TextBlock Text="Test" FontSize="40" Foreground="Orange" x:Key="TestOutput"/>
+
+		<!--Wenn ein Style als Resource definiert wird, ist dieser global (außer er hat einen Key)-->
+		<Style TargetType="Button">
+			<Setter Property="Background" Value="Aqua"/>
+			<Setter Property="FontSize" Value="40"/>
+			<Setter Property="FontFamily" Value="Comic Sans MS"/>
+		</Style>
+	</Window.Resources>
+    <StackPanel Margin="10">
+		<!--Resources-->
+		<!--Objekte im XAML hinterlegen und diese per Schlüssel in verschiedenen UI-Elementen einbinden-->
+		<!--Resources können beliebige Objekte sein: Converter, int, double, bool, Brushes, Colors, Styles, andere UI-Elemente, ...-->
+		<!--Resources können an beliebigen Stellen hinterlegt werden: in Elementen selbst, Window, App.xaml, ResourceDictionaries-->
+		
+		<!--Mithilfe von der StaticResource MarkupExtension können Resources eingebunden werden-->
+		<!--Mithilfe DynamicResource können Resourcen als Referenz eingebunden werden (Veränderungen werden übernommen)-->
+		<Button Content="{StaticResource HalloWelt}"
+				FontSize="{DynamicResource DefaultFontSize}"/>
+		<Button Content="{StaticResource TestOutput}"/>
+		
+		<!--Mithilfe von Resources[...] können Resources im Backend angegriffen (und verändert) werden-->
+		<Button Content="Test" Click="TestClicked"/>
+
+		<!--x:Static kann verwendet werden, um statische Zugriffe auf Variablen im XAML zu machen-->
+		<DatePicker SelectedDate="{x:Static sys:DateTime.Now}"/>
+		
+		<!--Bindings auf Resources-->
+		<Slider Minimum="10" Maximum="100" Value="{Binding Resources[DefaultFontSize]}"/>
+		
+		<!--ResourceDictionary angreifen-->
+		<Button Content="{StaticResource HalloWeltExtern}"/>
+		
+		<!--..........................................................................-->
+		
+		<!--Styles-->
+		<!--Jede UI-Komponente hat einen Style-->
+		<!--Jede Komponente hat einen Standardstyle (WPF intern)-->
+		<!--Kann mit einem eigenen Style überschrieben werden-->
+		<!--Kann über die Style Eigenschaft gesetzt werden, oder global-->
+		<Button Content="Button mit Style (stylischer Button)">
+			<Button.Style>
+				<!--In die Style Eigenschaft kann ein Objekt vom Typ Style hineingelegt werden-->
+				<!--WICHTIG: Immer TargetType setzen-->
+				<Style TargetType="Button">
+					<!--Jeder Style wird aus einzelnen Settern aufgebaut-->
+					<!--Jeder Setter hat immer Property und Value-->
+					<Setter Property="Background" Value="Aqua"/>
+					<Setter Property="FontSize" Value="40"/>
+					<Setter Property="FontFamily" Value="Comic Sans MS"/>
+				</Style>
+			</Button.Style>
+		</Button>
+
+		<!--Generell werden Styles als Resoures angelegt (siehe Window.Resources)-->
+		<Button Content="Leerer Button"/>
+	</StackPanel>
+</Window>

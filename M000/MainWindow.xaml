@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:M000"
         Title="MainWindow" Height="250" Width="300"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
 		WindowStartupLocation="CenterScreen"
 		Topmost="True"
 		SizeToContent="Height"
@@ -15,26 +16,30 @@
 			<GradientStop Color="OrangeRed" Offset="1"/>
 		</LinearGradientBrush>
 	</Window.Background>
+	<Window.Resources>
+		<local:BooleanToGeschlechtConverter x:Key="BGC"/>
+	</Window.Resources>
     <StackPanel Margin="10">
 		<UniformGrid Columns="2" Margin="0, 0, 0, 5">
 			<TextBlock Text="Vorname: "/>
-			<TextBox/>
+			<TextBox Text="{Binding DiePerson.Vorname}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0, 0, 0, 5">
 			<TextBlock Text="Nachname: "/>
-			<TextBox/>
+			<TextBox Text="{Binding DiePerson.Nachname}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0, 0, 0, 5">
 			<TextBlock Text="Geburtsdatum: "/>
-			<DatePicker SelectedDate="01-01-2000"/>
+			<DatePicker SelectedDate="{Binding DiePerson.Gebdat}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0, 0, 0, 5">
 			<TextBlock Text="Verheiratet: "/>
-			<CheckBox/>
+			<CheckBox IsChecked="{Binding DiePerson.Verheiratet}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0, 0, 0, 5">
 			<TextBlock Text="Lieblingsfarbe: "/>
-			<ComboBox>
+			<ComboBox SelectedValue="{Binding DiePerson.Lieblingsfarbe}"
+					  SelectedValuePath="Foreground.Color">
 				<ComboBoxItem Content="Rot" Foreground="Red"/>
 				<ComboBoxItem Content="Blau" Foreground="Blue"/>
 				<ComboBoxItem Content="Grün" Foreground="Green"/>
@@ -44,9 +49,12 @@
 		<UniformGrid Columns="2" Margin="0, 0, 0, 5">
 			<TextBlock Text="Geschlecht: "/>
 			<StackPanel>
-				<RadioButton GroupName="Gender" Content="M" VerticalContentAlignment="Center"/>
-				<RadioButton GroupName="Gender" Content="W" VerticalContentAlignment="Center"/>
-				<RadioButton GroupName="Gender" Content="D" VerticalContentAlignment="Center"/>
+				<RadioButton GroupName="Gender" Content="M" VerticalContentAlignment="Center"
+							 IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static local:Geschlecht.M}}"/>
+				<RadioButton GroupName="Gender" Content="W" VerticalContentAlignment="Center"
+							 IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static local:Geschlecht.W}}"/>
+				<RadioButton GroupName="Gender" Content="D" VerticalContentAlignment="Center"
+							 IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static local:Geschlecht.D}}"/>
 			</StackPanel>
 		</UniformGrid>
 		<Grid>
@@ -55,7 +63,7 @@
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Button Grid.Column="1" Content="OK" Margin="0, 0, 2.5, 0"/>
+			<Button Grid.Column="1" Content="OK" Margin="0, 0, 2.5, 0" Click="OKClicked"/>
 			<Button Grid.Column="2" Content="Abbrechen" Margin="2.5, 0, 0, 0"/>
 		</Grid>
 	</StackPanel>
