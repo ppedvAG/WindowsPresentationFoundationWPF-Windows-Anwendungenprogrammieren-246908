@@ -39,5 +39,62 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
+		
+		<!--Beispiel: Converter per MarkupExtension bereitstellen-->
+		<!--Converter: Text zu Zahl übersetzen-->
+		<TextBlock Text="{Binding Zahl, Converter={local:Converter ConverterType=local:TextNumberToIntConverter}}"/>
+		
+		<!--..........................................-->
+		
+		<!--RelativeSources-->
+		<!--Bindungen, bei denen zur Editor-Zeit nicht bekannt ist, was gebunden werden soll-->
+		
+		<!--Self-->
+		<!--Selbstbindung-->
+		<Slider Minimum="10" Maximum="100" Name="SizeSlider"/>
+		<Rectangle Width="{Binding ElementName=SizeSlider, Path=Value}"
+				   Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+				   Stroke="Black" StrokeThickness="2" Fill="Aqua"/>
+		
+		<!--TemplatedParent-->
+		<!--Äquivalent zu TemplateBinding-->
+		<Button Content="Hallo" FontWeight="Bold" FontSize="20" BorderBrush="Black" BorderThickness="3">
+			<Button.Template>
+				<ControlTemplate TargetType="Button">
+					<Border BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Background="Aqua"
+							CornerRadius="20">
+						<ContentPresenter Margin="3"
+								  HorizontalAlignment="Center"
+								  VerticalAlignment="Center"/>
+					</Border>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+		
+		<!--FindAncestor-->
+		<!--Sucht zur Laufzeit einen Typen mit einem Level-->
+		<Grid Background="Aqua" Height="100">
+			<Grid Background="Orange" Height="75">
+				<Grid Background="LightGreen" Height="50">
+					<Button Height="25"
+							Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}, AncestorLevel=1}, Path=Background}"/>
+				</Grid>
+			</Grid>
+		</Grid>
+		
+		<!--PreviousData-->
+		<!--Greift in einer Listenkomponente auf das vorherige Element zu-->
+		<ListBox ItemsSource="{local:Range Start=0, End=20}">
+			<ListBox.ItemTemplate>
+				<DataTemplate DataType="sys:Int32">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding .}" Margin="10, 0"/>
+						<TextBlock Text="{Binding RelativeSource={RelativeSource PreviousData}}"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
 	</StackPanel>
 </Window>

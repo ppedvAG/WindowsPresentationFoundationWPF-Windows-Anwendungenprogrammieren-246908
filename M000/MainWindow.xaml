@@ -39,19 +39,30 @@
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Lieblingsfarbe: "/>
-			<ComboBox ItemsSource="{Binding Source={StaticResource Odp_ColorsProperties}}"
+			<!--Lösung mit ObjectDataProvider-->
+			<!--<ComboBox ItemsSource="{Binding Source={StaticResource Odp_ColorsProperties}}"
 					  SelectedValue="{Binding DiePerson.Lieblingsfarbe}"
 					  SelectedValuePath="Name">
-				<!--<ComboBoxItem Content="Rot" Foreground="Red"/>
-				<ComboBoxItem Content="Blau" Foreground="Blue"/>
-				<ComboBoxItem Content="Grün" Foreground="Green"/>
-				<ComboBoxItem Content="Gelb" Foreground="Yellow"/>-->
-
 				<ComboBox.ItemTemplate>
 					<DataTemplate DataType="Color">
 						<StackPanel Orientation="Horizontal">
 							<Rectangle Width="20" Height="20" Stroke="Black" StrokeThickness="2" Fill="{Binding Name}"/>
 							<TextBlock Text="{Binding Name}" Margin="5, 0"/>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>-->
+
+			<!--Lösung mit MarkupExtension-->
+			<ComboBox ItemsSource="{local:Colors}"
+					  SelectedValue="{Binding DiePerson.Lieblingsfarbe}"
+					  SelectedValuePath="TheColor">
+				<ComboBox.ItemTemplate>
+					<DataTemplate DataType="local:NamedColor">
+						<StackPanel Orientation="Horizontal">
+							<Rectangle Width="20" Height="20" Stroke="Black" StrokeThickness="2" Fill="{Binding Brush}"/>
+							<TextBlock Text="{Binding Name}" Margin="5, 0, 0, 0"/>
+							<TextBlock Text="{Binding ColorCode}" Margin="5, 0"/>
 						</StackPanel>
 					</DataTemplate>
 				</ComboBox.ItemTemplate>

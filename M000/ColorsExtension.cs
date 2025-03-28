@@ -1,7 +1,7 @@
 ﻿using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace M008;
+namespace M000;
 
 public class ColorsExtension : MarkupExtension
 {
@@ -12,6 +12,7 @@ public class ColorsExtension : MarkupExtension
 		//			.GetProperties()
 		//			.Select(e => (Color) e.GetValue(null));
 
+		//Farbe mit Name
 		//e.GetValue(null): Die Farbe hinter jedem Property
 		//e.Name: Der Name des Properties
 		return typeof(Colors)
