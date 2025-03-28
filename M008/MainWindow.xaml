@@ -1,0 +1,43 @@
+﻿<Window x:Class="M008.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+		xmlns:http="clr-namespace:System.Net;assembly=System.Net"
+        xmlns:local="clr-namespace:M008"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="450" Width="300"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+    <StackPanel Margin="10">
+		<!--MarkupExtension-->
+		<!--Alles was zwischen { } steht-->
+		<!--Nimmt einen Wert von einer Quelle, und gibt diesen ans XAML weiter-->
+		
+		<!--Beispiel: Enum an eine ComboBox anbinden-->
+		
+		<!--Option 1: Liste im Backend erzeugen und diese per Binding anbinden-->
+		<ComboBox ItemsSource="{Binding Wochentage}"/>
+		<!--Problem: In großen Projekten wird dadurch das Backend mit Enum-Arrays zugemüllt, welche nur zur Anzeige verwendet werden-->
+		
+		<!--Option 2: Eigene MarkupExtension-->
+		<ComboBox ItemsSource="{local:Enum EnumType=sys:DayOfWeek}"/>
+		<ComboBox ItemsSource="{local:Enum EnumType=http:HttpStatusCode}"/>
+		
+		<!--Beispiel: Bereich von X bis Y in einer ComboBox anzeigen-->
+		<TextBlock Text="Geburtsjahr auswählen: "/>
+		<ComboBox ItemsSource="{local:Range Start=1900, End=2025}"/>
+		
+		<!--Beispiel: Farben aus der Colors Klasse extrahieren-->
+		<ComboBox ItemsSource="{local:Colors}">
+			<ComboBox.ItemTemplate>
+				<DataTemplate DataType="local:NamedColor">
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="20" Height="20" Stroke="Black" StrokeThickness="2" Fill="{Binding Brush}"/>
+						<TextBlock Text="{Binding Name}" Margin="5, 0, 0, 0"/>
+						<TextBlock Text="{Binding ColorCode}" Margin="5, 0"/>
+					</StackPanel>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+	</StackPanel>
+</Window>

@@ -39,12 +39,22 @@
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Lieblingsfarbe: "/>
-			<ComboBox SelectedValue="{Binding DiePerson.Lieblingsfarbe}"
-					  SelectedValuePath="Foreground.Color">
-				<ComboBoxItem Content="Rot" Foreground="Red"/>
+			<ComboBox ItemsSource="{Binding Source={StaticResource Odp_ColorsProperties}}"
+					  SelectedValue="{Binding DiePerson.Lieblingsfarbe}"
+					  SelectedValuePath="Name">
+				<!--<ComboBoxItem Content="Rot" Foreground="Red"/>
 				<ComboBoxItem Content="Blau" Foreground="Blue"/>
 				<ComboBoxItem Content="Grün" Foreground="Green"/>
-				<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
+				<ComboBoxItem Content="Gelb" Foreground="Yellow"/>-->
+
+				<ComboBox.ItemTemplate>
+					<DataTemplate DataType="Color">
+						<StackPanel Orientation="Horizontal">
+							<Rectangle Width="20" Height="20" Stroke="Black" StrokeThickness="2" Fill="{Binding Name}"/>
+							<TextBlock Text="{Binding Name}" Margin="5, 0"/>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
 			</ComboBox>
 		</UniformGrid>
 		<UniformGrid>
