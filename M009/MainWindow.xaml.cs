@@ -6,7 +6,7 @@ namespace M009;
 
 public partial class MainWindow : Window, IDataErrorInfo
 {
-	public string Eingabe { get; set; }
+	public string Eingabe { get; set; } = "123";
 
 	private string eingabe2;
 

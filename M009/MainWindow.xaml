@@ -10,11 +10,14 @@
 	<Window.Resources>
 		<ControlTemplate x:Key="ErrorTemp">
 			<StackPanel>
-				<Border BorderBrush="Red" BorderThickness="3">
-					<!--AdornedElementPlaceholder-->
-					<!--Platzhalter, für das Element, welches gerade validiert wird-->
-					<AdornedElementPlaceholder Name="AEP"/>
-				</Border>
+				<StackPanel Orientation="Horizontal">
+					<Border BorderBrush="Red" BorderThickness="3">
+						<!--AdornedElementPlaceholder-->
+						<!--Platzhalter, für das Element, welches gerade validiert wird-->
+						<AdornedElementPlaceholder Name="AEP"/>
+					</Border>
+					<TextBlock Text="!" Foreground="Red" FontWeight="Bold"/>
+				</StackPanel>
 				<Popup IsOpen="{Binding ElementName=AEP, Path=AdornedElement.IsMouseOver, Mode=OneWay}"
 					   Placement="Mouse">
 					<!--Mode=OneWay, weil IsMouseOver Get-Only ist-->
@@ -34,7 +37,7 @@
 			<local:LengthValidation/>
 		</local:ValidationRuleCollection>
 	</Window.Resources>
-    <StackPanel Margin="10">
+    <StackPanel Margin="20">
 		<!--Validation-->
 		<!--User davon abhalten Blödsinn einzugeben-->
 		<!--Wird noch vor dem Converter bei einem Binding ausgeführt-->
