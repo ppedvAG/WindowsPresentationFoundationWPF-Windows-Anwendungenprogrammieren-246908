@@ -5,6 +5,11 @@ namespace M009;
 
 public class LetterValidation : ValidationRule
 {
+	public LetterValidation()
+	{
+		ValidatesOnTargetUpdated = true;
+	}
+
 	public override ValidationResult Validate(object value, CultureInfo cultureInfo)
 	{
 		string text = value.ToString()!;

@@ -7,6 +7,33 @@
 		WindowStartupLocation="CenterScreen"
 		Topmost="True"
 		FontSize="40">
+	<Window.Resources>
+		<ControlTemplate x:Key="ErrorTemp">
+			<StackPanel>
+				<Border BorderBrush="Red" BorderThickness="3">
+					<!--AdornedElementPlaceholder-->
+					<!--Platzhalter, für das Element, welches gerade validiert wird-->
+					<AdornedElementPlaceholder Name="AEP"/>
+				</Border>
+				<Popup IsOpen="{Binding ElementName=AEP, Path=AdornedElement.IsMouseOver, Mode=OneWay}"
+					   Placement="Mouse">
+					<!--Mode=OneWay, weil IsMouseOver Get-Only ist-->
+					<Border BorderBrush="Red"
+							BorderThickness="3"
+							Background="White">
+						<TextBlock Text="{Binding ElementName=AEP, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+								   FontSize="18"
+								   Margin="5"/>
+					</Border>
+				</Popup>
+			</StackPanel>
+		</ControlTemplate>
+
+		<local:ValidationRuleCollection x:Key="Rules">
+			<local:LetterValidation/>
+			<local:LengthValidation/>
+		</local:ValidationRuleCollection>
+	</Window.Resources>
     <StackPanel Margin="10">
 		<!--Validation-->
 		<!--User davon abhalten Blödsinn einzugeben-->
@@ -61,7 +88,26 @@
 		<TextBox Text="{Binding Eingabe3, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Name="IDataErrorInfoValidation"/>
 		<TextBlock Text="{Binding ElementName=IDataErrorInfoValidation, Path=(Validation.Errors)[0].ErrorContent}"/>
 		
+		
 		<!--ErrorTemplate-->
+		<!--Eigene UI, welche bei einem Validierungsfehler angezeigt wird-->
+		<!--Wird generell als Resource definiert-->
+		<TextBox Validation.ErrorTemplate="{StaticResource ErrorTemp}">
+			<TextBox.Text>
+				<Binding Path="Eingabe" UpdateSourceTrigger="PropertyChanged">
+					<Binding.ValidationRules>
+						<local:LetterValidation/>
+						<local:LengthValidation Min="0" Max="20"/>
+					</Binding.ValidationRules>
+				</Binding>
+			</TextBox.Text>
+		</TextBox>
+
+		
 		<!--ValidationRule MarkupExtension-->
+		<TextBox Text="{local:ValidationBinding 
+							  Binding={Binding Path=Eingabe, UpdateSourceTrigger=PropertyChanged}, 
+							  Rules={StaticResource Rules}}"
+				 Validation.ErrorTemplate="{StaticResource ErrorTemp}"/>
 	</StackPanel>
 </Window>
