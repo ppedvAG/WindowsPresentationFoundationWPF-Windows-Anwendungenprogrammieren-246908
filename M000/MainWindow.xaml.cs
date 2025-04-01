@@ -1,6 +1,5 @@
 ﻿using M000.Model;
 using System.Windows;
-using System.Windows.Media;
 
 namespace M000;
 

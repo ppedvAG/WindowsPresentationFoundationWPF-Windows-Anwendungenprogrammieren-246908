@@ -12,6 +12,7 @@ public class Person : INotifyPropertyChanged
 	private bool verheiratet;
 	private Color lieblingsfarbe;
 	private Geschlecht gender;
+	private int anzahlKinder;
 
 	public string Vorname
 	{
@@ -73,6 +74,15 @@ public class Person : INotifyPropertyChanged
 		}
 	}
 
+	public int AnzahlKinder
+	{
+		get => anzahlKinder;
+		set
+		{
+			anzahlKinder = value;
+			Notify();
+		}
+	}
 
 
 	#region INotifyPropertyChanged

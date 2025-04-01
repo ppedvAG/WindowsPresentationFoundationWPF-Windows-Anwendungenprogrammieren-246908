@@ -45,6 +45,7 @@
 		</util:ValidationRuleCollection>
 		<valid:DateValidation x:Key="DV" ValidatesOnTargetUpdated="True"/>
 		<valid:ColorValidation x:Key="CV" ValidatesOnTargetUpdated="True"/>
+		<valid:CounterValidation x:Key="NV" ValidatesOnTargetUpdated="True"/>
 	</Window.Resources>
 	<StackPanel Margin="10">
 		<UniformGrid>
@@ -118,6 +119,12 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>-->
 		</UniformGrid>
+		<UniformGrid>
+			<TextBlock Text="Anzahl Kinder: " VerticalAlignment="Center"/>
+			<local:IntegerCounter Counter="{util:ValidationBinding Binding={Binding DiePerson.AnzahlKinder, Mode=TwoWay}, SingleRule={StaticResource NV}}"
+								  Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+								  x:Name="CounterIC"/>
+		</UniformGrid>
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="30"/>
@@ -135,6 +142,7 @@
 									<Condition Binding="{Binding ElementName=NachnameTB, Path=(Validation.HasError)}" Value="False"/>
 									<Condition Binding="{Binding ElementName=GebdatDP, Path=(Validation.HasError)}" Value="False"/>
 									<Condition Binding="{Binding ElementName=FarbeCB, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=CounterIC, Path=(Validation.HasError)}" Value="False"/>
 								</MultiDataTrigger.Conditions>
 								<Setter Property="IsEnabled" Value="True"/>
 							</MultiDataTrigger>
