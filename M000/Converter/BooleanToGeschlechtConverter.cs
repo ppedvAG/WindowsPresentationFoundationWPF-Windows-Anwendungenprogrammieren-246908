@@ -1,7 +1,8 @@
-﻿using System.Globalization;
+﻿using M000.Model;
+using System.Globalization;
 using System.Windows.Data;
 
-namespace M000;
+namespace M000.Converter;
 
 public class BooleanToGeschlechtConverter : IValueConverter
 {

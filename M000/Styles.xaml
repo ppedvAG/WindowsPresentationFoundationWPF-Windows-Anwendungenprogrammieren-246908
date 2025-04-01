@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:local="clr-namespace:M000">
-	<local:BooleanToGeschlechtConverter x:Key="BGC"/>
+					xmlns:conv="clr-namespace:M000.Converter">
+	<conv:BooleanToGeschlechtConverter x:Key="BGC"/>
 	
 	<Style TargetType="Window" x:Key="DefaultWindowStyle">
 		<Setter Property="FontSize" Value="14"/>

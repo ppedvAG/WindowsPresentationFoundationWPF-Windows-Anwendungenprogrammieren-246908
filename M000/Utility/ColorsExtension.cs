@@ -1,7 +1,7 @@
 ﻿using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace M000;
+namespace M000.Utility;
 
 public class ColorsExtension : MarkupExtension
 {

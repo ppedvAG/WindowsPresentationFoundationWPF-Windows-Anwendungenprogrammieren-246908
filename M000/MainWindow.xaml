@@ -2,6 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:M000"
+		xmlns:util="clr-namespace:M000.Utility"
+		xmlns:valid="clr-namespace:M000.Validation"
+		xmlns:model="clr-namespace:M000.Model"
 		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         Title="MainWindow"
 		DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -19,19 +22,48 @@
 			</ObjectDataProvider.MethodParameters>
 		</ObjectDataProvider>
 		<ObjectDataProvider x:Key="Odp_ColorsProperties" MethodName="GetProperties" ObjectInstance="{StaticResource Odp_Colors}"/>
+
+		<ControlTemplate x:Key="ErrorTemp">
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Border BorderBrush="Red" BorderThickness="3">
+						<AdornedElementPlaceholder Name="AEP"/>
+					</Border>
+					<TextBlock Text="!" Foreground="Red" FontWeight="Bold"/>
+				</StackPanel>
+				<Popup IsOpen="{Binding ElementName=AEP, Path=AdornedElement.IsMouseOver, Mode=OneWay}" Placement="Mouse">
+					<Border BorderBrush="Red" BorderThickness="3" Background="White">
+						<TextBlock Text="{Binding ElementName=AEP, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" FontSize="18" Margin="5"/>
+					</Border>
+				</Popup>
+			</StackPanel>
+		</ControlTemplate>
+
+		<util:ValidationRuleCollection x:Key="TextValidations">
+			<valid:LetterValidation ValidatesOnTargetUpdated="True"/>
+			<valid:LengthValidation ValidatesOnTargetUpdated="True"/>
+		</util:ValidationRuleCollection>
+		<valid:DateValidation x:Key="DV" ValidatesOnTargetUpdated="True"/>
+		<valid:ColorValidation x:Key="CV" ValidatesOnTargetUpdated="True"/>
 	</Window.Resources>
 	<StackPanel Margin="10">
 		<UniformGrid>
 			<TextBlock Text="Vorname: "/>
-			<TextBox Text="{Binding DiePerson.Vorname}"/>
+			<TextBox Text="{util:ValidationBinding Binding={Binding DiePerson.Vorname, UpdateSourceTrigger=PropertyChanged}, Rules={StaticResource TextValidations}}"
+					 Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+					 Name="VornameTB"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Nachname: "/>
-			<TextBox Text="{Binding DiePerson.Nachname}"/>
+			<TextBox Text="{util:ValidationBinding Binding={Binding DiePerson.Nachname, UpdateSourceTrigger=PropertyChanged}, Rules={StaticResource TextValidations}}"
+					 Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+					 Name="NachnameTB"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Geburtsdatum: "/>
-			<DatePicker SelectedDate="{Binding DiePerson.Gebdat}"/>
+			<DatePicker SelectedDate="{util:ValidationBinding Binding={Binding DiePerson.Gebdat, UpdateSourceTrigger=PropertyChanged}, SingleRule={StaticResource DV}}"
+						Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+						Name="GebdatDP"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Verheiratet: "/>
@@ -54,9 +86,11 @@
 			</ComboBox>-->
 
 			<!--Lösung mit MarkupExtension-->
-			<ComboBox ItemsSource="{local:Colors}"
-					  SelectedValue="{Binding DiePerson.Lieblingsfarbe}"
-					  SelectedValuePath="TheColor">
+			<ComboBox ItemsSource="{util:Colors}"
+					  SelectedValue="{util:ValidationBinding Binding={Binding DiePerson.Lieblingsfarbe, UpdateSourceTrigger=PropertyChanged}, SingleRule={StaticResource CV}}"
+					  SelectedValuePath="TheColor"
+					  Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+					  Name="FarbeCB">
 				<ComboBox.ItemTemplate>
 					<DataTemplate DataType="local:NamedColor">
 						<StackPanel Orientation="Horizontal">
@@ -71,9 +105,9 @@
 		<UniformGrid>
 			<TextBlock Text="Geschlecht: "/>
 			<StackPanel>
-				<RadioButton Content="M" IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static local:Geschlecht.M}}"/>
-				<RadioButton Content="W" IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static local:Geschlecht.W}}"/>
-				<RadioButton Content="D" IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static local:Geschlecht.D}}"/>
+				<RadioButton Content="M" IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static model:Geschlecht.M}}"/>
+				<RadioButton Content="W" IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static model:Geschlecht.W}}"/>
+				<RadioButton Content="D" IsChecked="{Binding DiePerson.Gender, Converter={StaticResource BGC}, ConverterParameter={x:Static model:Geschlecht.D}}"/>
 			</StackPanel>
 
 			<!--<ItemsControl ItemsSource="">
@@ -90,7 +124,24 @@
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Button Grid.Column="1" Content="OK" Margin="0, 0, 2.5, 0" Click="OKClicked"/>
+			<Button Grid.Column="1" Content="OK" Margin="0, 0, 2.5, 0" Click="OKClicked">
+				<Button.Style>
+					<Style TargetType="Button">
+						<Setter Property="IsEnabled" Value="False"/>
+						<Style.Triggers>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding ElementName=VornameTB, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=NachnameTB, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=GebdatDP, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=FarbeCB, Path=(Validation.HasError)}" Value="False"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="IsEnabled" Value="True"/>
+							</MultiDataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
+			</Button>
 			<Button Grid.Column="2" Content="Abbrechen" Margin="2.5, 0, 0, 0"/>
 		</Grid>
 	</StackPanel>

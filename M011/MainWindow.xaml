@@ -1,0 +1,37 @@
+﻿<Window x:Class="M011.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M011"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+    <StackPanel>
+		<!--UserControls-->
+		<!--Eigene WPF Komponente-->
+		
+		<!--#region TabControl-->
+		<!--Andere Verwendung: Pages in einer WPF Anwendung (-> Jede View ist ein UserControl)-->
+		<!--<TabControl>
+			<TabItem Header="Page 1">
+				--><!--Wenn jede Page in MainWindow.xaml eingebunden wird, wird das File über Zeit sehr groß -> in kleinere Files aufteilen--><!--
+				<StackPanel>
+					<Button Content="Hallo"/>
+				</StackPanel>
+			</TabItem>
+			<TabItem Header="Page 2">
+				<local:Page2/>
+			</TabItem>
+			<TabItem Header="Page 3"/>
+		</TabControl>-->
+		<!--#endregion-->
+		
+		<!--Beispiel: ColorPicker zu einem UserControl konvertieren-->
+		<!--Schritte:-->
+		<!--1. Einzelne TextBlock/Slider/TextBox zu einem UserControl umwandeln-->
+		<!--2. ColorPicker allgemein zu einem UserControl umwandeln-->
+		<!--3. MultiBinding ins Backend legen (später soll im MainWindow ein Binding auf die gewählte Farbe gelegt werden)-->
+		<local:ColorPicker PickedColor="{Binding PickedColor, Mode=TwoWay}"/>
+		<Button Content="Test" Click="Button_Click"/>
+	</StackPanel>
+</Window>

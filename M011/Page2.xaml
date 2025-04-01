@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="M011.Page2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:M011">
+    <StackPanel>
+		<TextBlock Text="Gib dein Alter ein: "/>
+		<TextBox/>
+		<Button Content="Eingabe bestätigen"/>
+	</StackPanel>
+</UserControl>

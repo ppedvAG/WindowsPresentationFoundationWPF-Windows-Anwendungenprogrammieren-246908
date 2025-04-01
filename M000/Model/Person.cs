@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 
-namespace M000;
+namespace M000.Model;
 
 public class Person : INotifyPropertyChanged
 {

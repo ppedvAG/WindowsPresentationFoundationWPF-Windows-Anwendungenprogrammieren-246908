@@ -1,4 +1,4 @@
-﻿namespace M000;
+﻿namespace M000.Model;
 
 public enum Geschlecht
 {
